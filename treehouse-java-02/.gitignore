@@ -1,0 +1,7 @@
+# MacOS specific files
+.DS_Store
+
+# IntelliJ IDEA specific files
+.idea/
+treehouse-java-02.iml
+out/

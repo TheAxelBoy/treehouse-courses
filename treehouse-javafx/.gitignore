@@ -1,0 +1,7 @@
+# MacOS specific files
+.DS_Store
+
+# IntelliJ IDEA specific files
+.idea/
+out/
+mocks/

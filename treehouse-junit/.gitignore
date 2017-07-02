@@ -1,0 +1,6 @@
+# macOS specific file
+.DS_Store
+
+# IntelliJ IDEA specific files
+.idea
+out
