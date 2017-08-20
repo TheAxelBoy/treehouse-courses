@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Find specific text node that contains a substring
-  // replace its content with text
+  // and replace its content with text
   function changeTextNode(node, substring, text) {
     for(let i = 0; i < node.childNodes.length; i++) {
       let currentNode = node.childNodes[i];
@@ -84,12 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const text = input.value;
+    const lis = ul.children;
+    let isDouble = false;
 
     if (text != '') {
-      if (text == 'test') {
+      for (let i = 0; i < lis.length; i++) {
+        const liText = lis[i].querySelector('span').textContent;
+        if (liText.toLowerCase() == text.toLowerCase()) {
+          isDouble = true;
+        }
+      }
+      if (isDouble) {
         displayMessage('The guest already exists, please choose another name!');
       } else {
-        message.style.display = 'none';
+        messageBox.style.display = 'none';
         input.value = '';
         const li = createLI(text);
         ul.appendChild(li);
