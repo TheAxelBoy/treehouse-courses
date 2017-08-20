@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = form.querySelector('input');
   const ul = document.getElementById('invitedList');
   const filterCheckBox = document.getElementById('filter');
+  const messageBox = document.getElementById('messageBox');
+  const message = document.getElementById('message');
+  const closeMessage = document.querySelector('#closeMessage > img')
   
   // Filter guest which aren't confirmed
   filterCheckBox.addEventListener('change', (e) => {
@@ -13,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < lis.length; i += 1) {
         let li = lis[i];
         if (li.className === 'responded') {
+          li.querySelector('label').style.display = 'none';
           li.style.display = '';
         } else {
           li.style.display = 'none';
@@ -21,11 +25,35 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       for (let i = 0; i < lis.length; i += 1) {
         let li = lis[i];
+        li.querySelector('label').style.display = '';
         li.style.display = '';
       }
     }
   });
   
+  // Display a message 
+  function displayMessage(text) {
+    message.textContent = text;
+    messageBox.style.display = 'flex';
+  }
+
+  // Close message
+  closeMessage.addEventListener('click', () => {
+    messageBox.style.display = 'none';
+  });
+
+  // Find specific text node that contains a substring
+  // replace its content with text
+  function changeTextNode(node, substring, text) {
+    for(let i = 0; i < node.childNodes.length; i++) {
+      let currentNode = node.childNodes[i];
+      if (currentNode.nodeType == Node.TEXT_NODE &&
+          currentNode.textContent.indexOf(substring) != -1) {
+        return currentNode.textContent = text;
+      }
+    }
+  };
+
   // Create guest
   function createLI(text) {
     // Helper functions
@@ -44,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create list item with name and append elements
     const li = document.createElement('li');
     appendToLI('span', 'textContent', text);   
-    appendToLI('label', 'textContent', 'Confirmed')
+    appendToLI('label', 'textContent', 'Confirm')
       .appendChild(createElement('input', 'type', 'checkbox'));   
     appendToLI('button', 'textContent', 'edit');
     appendToLI('button', 'textContent', 'remove');
@@ -56,20 +84,32 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const text = input.value;
-    input.value = '';
-    const li = createLI(text);
-    ul.appendChild(li);
+
+    if (text != '') {
+      if (text == 'test') {
+        displayMessage('The guest already exists, please choose another name!');
+      } else {
+        message.style.display = 'none';
+        input.value = '';
+        const li = createLI(text);
+        ul.appendChild(li);
+      }
+    } else {
+      displayMessage('Please type in a name!');
+    }
   });
   
   // Confirm guest - checkbox
   ul.addEventListener('change', (e) => {
-    const checkbox = event.target;
+    const checkbox = e.target;
     const checked = checkbox.checked;
     const listItem = checkbox.parentNode.parentNode;
     
     if (checked) {
+      changeTextNode(listItem.querySelector('label'), 'Confirm', 'Confirmed');
       listItem.className = 'responded';
     } else {
+      changeTextNode(listItem.querySelector('label'), 'Confirmed', 'Confirm');
       listItem.className = '';
     }
   });

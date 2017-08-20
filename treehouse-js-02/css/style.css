@@ -143,6 +143,33 @@ div > label {
   transition: 0.4s;
   color: rgba(88, 183, 205, 1);
 }
+#messageBox {
+  display: none;
+  width: 80%;
+  margin: auto;
+  margin-bottom: 20px;
+  float: none;
+  background: #f9e0e5;
+  border: 1px solid #ff9292;
+  border-radius: .2em;
+  color: #e04b4b;
+  font-size: 18px;
+  text-align: center;
+}
+#messageBox > div:first-child {
+  width: 25px;
+}
+#message {
+  flex-grow: 1;
+  padding: 12px 0;
+}
+#closeMessage {
+  width: 15px;
+  margin: 5px 5px 0 5px;
+}
+#closeMessage > img {
+  cursor: pointer;
+}
 
 /* ================================= 
   Media Queries
@@ -151,6 +178,9 @@ div > label {
 @media (min-width: 0) and (max-width: 768px) {
   header {
     padding: 1.25em;
+  }
+  #messageBox {
+    width: 100%;
   }
   h1 {
     font-size: 3.6em;
